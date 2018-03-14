@@ -2,33 +2,26 @@
 [NodeDefender](https://www.nodedefender.com) is an Open- Source program for controlling multiple Z-Wave devices connected to multiple gateways.
 This programs is exclusivly designed to work with [CTS-iCPE](http://cts-icpe.com). 
 
-## Requirements
-NodeDefender is written in Python3 around the Flask framework.
-Some of the packages will require compilation which requires python-dev installed on your host. Everything else should be possible to install with pip, either on your host or in virtualenv(recommended).
+# Requirements
 
-- Linux System(OSX may work, not tested)
-- Git
+- Linux System
 - Python3
 - Python3-dev
 - Python-virtualenv
+- libpq-dev
 
-## Installation, Quick step.
+# Installation
 
-1. Clone the repo on your machine
+### Installation from pypi with "pip":
 ```
-git clone https://github.com/CTSNE/NodeDefender.git
+ $ pip install nodedefender
 ```
-2. Install virtual- enviroment
+### Installation from source(git)
 ```
-virtualenv -p python3 py
+$ git clone https://github.com/CTSNE/NodeDefender.git
+$ cd NodeDefender
+$ virtualenv -p python3 py
+$ source py/bin/activate
+(venv)$ pip install -r requirements.txt
 ```
-3. Install dependencies
-```
-./py/bin/pip install -r requirements.txt
-```
-4. Go through setup- phase
-```
-./manage.py setup all
-```
-## Full documentation
 
