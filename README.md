@@ -24,4 +24,13 @@ $ virtualenv -p python3 py
 $ source py/bin/activate
 (venv)$ pip install -r requirements.txt
 ```
+# Configuration & Usage
 
+> Below and the rest of the documnetation will explain usage when NodeDefender is installed using pypi
+> For installation from source $ nodedefender is changed to $ ./manage.py
+
+```
+$ nodedefender run
+```
+Will start the application and give you the possibility to deploy configuration and initial superuser.
+Once complete; restart the application and the new configuration will be used.
