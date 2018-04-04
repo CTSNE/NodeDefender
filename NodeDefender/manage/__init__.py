@@ -17,7 +17,11 @@ manager = Manager(app)
 @manager.command
 def run():
     app = NodeDefender.create_app()
-    NodeDefender.socketio.run(app, host="0.0.0.0")
+    try:
+        port = int(NodeDefender.app.config['SERVER_PORT'])
+    except KeyError:
+        port = 5000
+    NodeDefender.socketio.run(app, host="0.0.0.0", port=port)
 
 manager.add_command('user', UserManager)
 manager.add_command('role', RoleManager)

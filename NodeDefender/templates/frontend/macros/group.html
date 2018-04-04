@@ -81,7 +81,7 @@ grouptable = document.getElementById('grouptable');
 	{{Field('Description', Group.description)}}
 	{{Field('Street', Group.location.street)}}
 	{{Field('City', Group.location.city)}}
-	{{Field('Created', Group.date_created)}}
+	{{Field('Created', moment(Group.date_created).format('LL'))}}
 </div>
 {% endmacro %}
 

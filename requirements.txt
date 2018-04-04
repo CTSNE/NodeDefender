@@ -15,12 +15,8 @@ Flask-moment
 geopy
 paho-mqtt
 requests
-xmltodict
 apscheduler
 Celery
 Redis
-flask_assets
-flask_security
 redlock
-#psycopg2
 pymysql

@@ -28,7 +28,7 @@
 				{{ Field("Firstname", current_user.firstname) }}
 				{{ Field("Lastname", current_user.lastname) }}
 				{{ Field("Email", current_user.email) }}
-				{{ Field("Registered At", current_user.date_created) }}
+				{{ Field("Registered At", moment(current_user.date_created).format('LL')) }}
 			</div>
 		</div>
 	</div>

@@ -11,12 +11,9 @@ default_config = {'enabled' : False,
 config = default_config.copy()
 
 def load_config(parser):
-    config['enabled'] = eval(parser['LOGGING']['ENABLED'])
-    config['level'] = parser['LOGGING']['LEVEL']
-    config['engine'] = parser['LOGGING']['ENGINE']
-    config['filepath'] = parser['LOGGING']['FILEPATH']
-    config['host'] = parser['LOGGING']['HOST']
-    config['port'] = parser['LOGGING']['PORT']
+    if eval(parser['LOGGING']['ENABLED']):
+        config.update(parser['LOGGING'])
+        config['enabled'] = True
     NodeDefender.app.config.update(
         LOGGING=config['enabled'],
         LOGGING_LEVEL=config['level'],

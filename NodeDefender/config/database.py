@@ -5,6 +5,8 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 import alembic
 import shutil
+import pip
+
 default_config = {'enabled' : False,
                   'engine' : '',
                   'username' : '',
@@ -17,14 +19,9 @@ default_config = {'enabled' : False,
 config = default_config.copy()
 
 def load_config(parser):
-    config['enabled'] = eval(parser['DATABASE']['ENABLED'])
-    config['engine'] = parser['DATABASE']['ENGINE']
-    config['username'] = parser['DATABASE']['USERNAME']
-    config['password'] = parser['DATABASE']['PASSWORD']
-    config['host'] = parser['DATABASE']['HOST']
-    config['port'] = parser['DATABASE']['PORT']
-    config['database'] = parser['DATABASE']['DATABASE']
-    config['filepath'] = parser['DATABASE']['FILEPATH']
+    if eval(parser['DATABASE']['ENABLED']):
+        config.update(parser['DATABASE'])
+        config['enabled'] = True
     NodeDefender.app.config.update(
         DATABASE=config['enabled'],
         DATABASE_ENGINE=config['engine'],
@@ -97,6 +94,19 @@ def upgrade_database(app):
     with app.app_context():
         flask_migrate.upgrade()
 
+def install_mysql():
+    try:
+        import pip
+    except ImportError:
+        if not pip.main(['install', 'pymysql']):
+            return False
+    return True
+
+def install_postgresql():
+    if pip.main(['install', 'psycopg2']):
+        return True
+    return False
+
 def get_uri():
     if config['engine'] == 'sqlite':
         return 'sqlite:///' + config['filepath']
@@ -124,6 +134,13 @@ def set(**kwargs):
             continue
         if key == "filepath" and value is not None:
             value = os.path.join(NodeDefender.config.datafolder, value)
+        if key == 'engine' and value == 'postgresql':
+            if not install_postgresql():
+                raise ImportError("Not able to install PostgreSQL\
+                        Please verify that libpq-dev is installed")
+        if key == 'engine' and value == 'mysql':
+            if not install_mysql():
+                raise ImportError("Not able to install MySQL")
         config[key] = str(value)
     test_database()
     return True

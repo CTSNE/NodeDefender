@@ -10,12 +10,9 @@ default_config = {'enabled' : False,
 config = default_config.copy()
 
 def load_config(parser):
-    config['enabled'] = eval(parser['CELERY']['ENABLED'])
-    config['broker'] = parser['CELERY']['BROKER']
-    config['host'] = parser['CELERY']['HOST']
-    config['port'] = parser['CELERY']['PORT']
-    config['database'] = parser['CELERY']['DATABASE']
-    config['server_name'] = parser['CELERY']['SERVER_NAME']
+    if eval(parser['CELERY']['ENABLED']):
+        config.update(parser['CELERY'])
+        config['enabled'] = True
     NodeDefender.app.config.update(
         CELERY=config['enabled'])
     if config['enabled']:

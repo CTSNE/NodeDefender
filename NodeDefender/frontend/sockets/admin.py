@@ -18,6 +18,7 @@ def general_info():
     config = NodeDefender.config.general.config.copy()
     config['release'] = NodeDefender.release
     config['hostname'] = NodeDefender.hostname
+    config['date_loaded'] = str(NodeDefender.date_loaded)
     config['uptime'] = NodeDefender.config.general.uptime()
     emit('general', config)
     return True

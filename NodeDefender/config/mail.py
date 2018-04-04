@@ -11,13 +11,10 @@ default_config = {'enabled' : False,
 config = default_config.copy()
 
 def load_config(parser):
-    config['enabled'] = eval(parser['MAIL']['ENABLED'])
-    config['host'] = parser['MAIL']['HOST']
-    config['port'] = parser['MAIL']['PORT']
-    config['tls'] = eval(parser['MAIL']['TLS'])
-    config['ssl'] = eval(parser['MAIL']['SSL'])
-    config['username'] = parser['MAIL']['USERNAME']
-    config['password'] = parser['MAIL']['PASSWORD']
+    if eval(parser['MAIL']['ENABLED']):
+        config.update(parser['MAIL'])
+        config['tls'] = eval(config['tls'])
+        config['ssl'] = eval(config['ssl'])
     NodeDefender.app.config.update(
         MAIL = config['enabled'],
         MAIL_HOST=config['host'],

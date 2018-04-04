@@ -8,10 +8,9 @@ default_config = {'enabled' : False,
 config = default_config.copy()
 
 def load_config(parser):
-    config['enabled'] = eval(parser['REDIS']['ENABLED'])
-    config['host'] = parser['REDIS']['HOST']
-    config['port'] = parser['REDIS']['PORT']
-    config['database'] = parser['REDIS']['DATABASE']
+    if eval(parser['REDIS']['ENABLED']):
+        config.update(parser['REDIS'])
+        config['enabled'] = True
     NodeDefender.app.config.update(
         REDIS=config['enabled'],
         REDIS_HOST=config['host'],

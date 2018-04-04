@@ -161,12 +161,10 @@ adminSocket.on('database', function(database) {
     }
   }
 });
-
 adminSocket.on('general', function(info) {
   $('#runMode').text(info.run_mode);
 	$('#hostName').text(info.hostname);
 	$('#releaseInfo').text(info.release);
-	console.log(info.uptime);
 	$('#uptime').text(info.uptime);
 });
 

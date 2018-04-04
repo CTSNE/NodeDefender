@@ -10,11 +10,9 @@ default_config = {'run_mode' : 'TESTING',
 config = default_config.copy()
 
 def load_config(parser):
-    config['run_mode'] = parser['GENERAL']['RUN_MODE']
-    config['key'] = parser['GENERAL']['KEY']
-    config['salt'] = parser['GENERAL']['SALT']
-    config['port'] = int(parser['GENERAL']['port'])
-    config['self_registration'] = eval(parser['GENERAL']['SELF_REGISTRATION'])
+    config.update(parser['GENERAL'])
+    config['port'] = int(config['port'])
+    config['self_registration'] = eval(config['self_registration'])
     NodeDefender.app.config.update(
         RUN_MODE=config['run_mode'],
         SECRET_KEY=config['key'],
