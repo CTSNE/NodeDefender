@@ -27,7 +27,7 @@ def load_config(parser):
     return True
 
 def uptime():
-    return str(datetime.now() - NodeDefender.date_loaded)
+    return str(datetime.now() - NodeDefender.DATE_LOADED)
 
 def set_default():
     config = default_config.copy()

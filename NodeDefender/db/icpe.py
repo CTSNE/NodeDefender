@@ -1,6 +1,6 @@
 from NodeDefender.db.sql import SQL, iCPEModel, NodeModel
 import NodeDefender
-from NodeDefender.db import redis, logger
+from NodeDefender.db import redis
 from redlock import RedLock
 from datetime import datetime
 
@@ -33,7 +33,7 @@ def create_sql(mac_address, mqttsrc):
     mqtt.icpes.append(icpe)
     SQL.session.add(mqtt, icpe)
     SQL.session.commit()
-    logger.info("Created SQL Entry for {!r}".format(mac_address))
+    NodeDefender.db.logger.info("Created SQL Entry for {!r}".format(mac_address))
     return icpe
 
 def delete_sql(mac_address):
@@ -41,7 +41,7 @@ def delete_sql(mac_address):
     if icpe is None:
         return False
     SQL.session.delete(icpe)
-    logger.info("Deleted SQL Entry for {!r}".format(mac_address))
+    NodeDefender.db.logger.info("Deleted SQL Entry for {!r}".format(mac_address))
     return SQL.session.commit()
 
 def get_redis(mac_address):
@@ -58,7 +58,7 @@ def get(mac_address):
     if len(icpe):
         return icpe
     if redis.icpe.load(get_sql(mac_address)):
-        logger.debug('Loaded iCPE: {!r}'.format(mac_address))
+        NodeDefender.db.logger.debug('Loaded iCPE: {!r}'.format(mac_address))
         return get_redis(mac_address)
     return False
 
@@ -121,7 +121,7 @@ def mark_online(mac_address):
         return False
     if eval(icpe['online']):
         return icpe
-    logger.info("iCPE {} Online".format(mac_address))
+    NodeDefender.db.logger.info("iCPE {} Online".format(mac_address))
     NodeDefender.frontend.sockets.icpe.online(icpe)
     return update_redis(mac_address, online = True)
 
@@ -131,7 +131,7 @@ def mark_offline(mac_address):
         return False
     if not eval(icpe['online']):
         return icpe
-    logger.warning("iCPE {} Offline".format(mac_address))
+    NodeDefender.db.logger.warning("iCPE {} Offline".format(mac_address))
     NodeDefender.frontend.sockets.icpe.offline(icpe)
     return update_redis(mac_address, online = False)
 

@@ -16,9 +16,9 @@ def load_sockets(socketio):
 
 def general_info():
     config = NodeDefender.config.general.config.copy()
-    config['release'] = NodeDefender.release
-    config['hostname'] = NodeDefender.hostname
-    config['date_loaded'] = str(NodeDefender.date_loaded)
+    config['release'] = NodeDefender.__version__
+    config['hostname'] = NodeDefender.HOSTNAME
+    config['date_loaded'] = str(NodeDefender.DATE_LOADED)
     config['uptime'] = NodeDefender.config.general.uptime()
     emit('general', config)
     return True
@@ -42,7 +42,7 @@ def create_mqtt(host, port, group):
         emit('error', e, namespace='/general')
     NodeDefender.db.group.add_mqtt(group, host, port)
     NodeDefender.mail.group.new_mqtt(group, host, port)
-    NodeDefender.mqtt.connection.add(host, port)
+    NodeDefender.mqtt.connection.load(host, port)
     emit('reload', namespace='/general')
     return True
 

@@ -1,6 +1,5 @@
 from NodeDefender.db.sql import SQL, iCPEModel, SensorModel,\
                                 CommandClassModel, CommandClassTypeModel
-from NodeDefender.db import logger
 import NodeDefender
 
 def get_sql(mac_address, sensor_id, classnumber = None, classname = None):
@@ -60,7 +59,7 @@ def create_sql(mac_address, sensor_id, classnumber = None, classname = None):
     sensor.commandclasses.append(commandclass)
     SQL.session.add(sensor, commandclass)
     SQL.session.commit()
-    logger.debug("Created SQL Entry for {!r}:{!r}:{!r}".\
+    NodeDefender.db.logger.debug("Created SQL Entry for {!r}:{!r}:{!r}".\
                  format(mac_address, sensor_id, commandclass.number))
     return commandclass
 
@@ -75,7 +74,7 @@ def delete_sql(mac_address, sensor_id, classnumber = None, classname = None):
     if commandclass is None:
         return False
     SQL.session.delete(commandclass)
-    logger.debug("Deleted SQL Entry for {!r}:{!r}:{!r}".\
+    NodeDefender.db.logger.debug("Deleted SQL Entry for {!r}:{!r}:{!r}".\
                  format(mac_address, sensor_id, commandclass.number))
     return SQL.session.commit()
 

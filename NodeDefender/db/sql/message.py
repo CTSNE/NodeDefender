@@ -53,14 +53,14 @@ class MessageModel(SQL.Model):
 
         if self.icpe:
             icpe = self.icpe.name
-            url = ""
+            url = "#"
             icon = 'fa fa-bug fa-3x'
         else:
             icpe = False
 
         if self.sensor:
             sensor = self.sensor.name
-            url = "sensor"
+            url = "#"
             icon = 'fa fa-bug fa-3x'
         else:
             sensor = False

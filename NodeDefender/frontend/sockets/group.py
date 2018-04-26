@@ -52,7 +52,7 @@ def info(name):
         group = group.to_json()
         return emit('info', group)
     else:
-        print("Group: ", name)
+        return emit('error', 'Group {} not found'.format(name), namespace='/general')
 
 def update(name, kwargs):
     group = NodeDefender.db.group.update(name, **kwargs)

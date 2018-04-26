@@ -1,12 +1,11 @@
-import logging
 import NodeDefender.db.sql
 import NodeDefender.db.redis
 
-logger = logging.getLogger(__name__)
-logger.setLevel('DEBUG')
+logger = None
 
 def load(app, loggHandler):
-    logger.addHandler(loggHandler)
+    global logger
+    logger = NodeDefender.logger.getChild("database")
     NodeDefender.db.sql.load(app, loggHandler)
     NodeDefender.db.redis.load(loggHandler)
 

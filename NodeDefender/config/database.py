@@ -7,23 +7,19 @@ import alembic
 import shutil
 import pip
 
-default_config = {'enabled' : False,
-                  'engine' : '',
+default_config = {'engine' : '',
                   'username' : '',
                   'password' : '',
                   'host' : '',
                   'port' : '',
                   'database' : '',
-                  'filepath' : ''}
+                  'filepath' : 'nodedefender.sql'}
 
 config = default_config.copy()
 
 def load_config(parser):
-    if eval(parser['DATABASE']['ENABLED']):
-        config.update(parser['DATABASE'])
-        config['enabled'] = True
+    config.update(parser['DATABASE'])
     NodeDefender.app.config.update(
-        DATABASE=config['enabled'],
         DATABASE_ENGINE=config['engine'],
         DATABASE_USERNAME=config['username'],
         DATABASE_PASSWORD=config['password'],
@@ -44,11 +40,6 @@ def test_database():
     app.config.update(
         SQLALCHEMY_DATABASE_URI = get_uri())
     db = NodeDefender.db.sql.load(app)
-    '''
-    app = NodeDefender.factory.CreateApp()
-    app.config.update(SQLALCHEMY_DATABASE_URI = get_uri())
-    db = NodeDefender.db.sql.load(app)
-    '''
 
     folder = NodeDefender.config.migrations_folder
     migrate = flask_migrate.Migrate(app, db, folder)

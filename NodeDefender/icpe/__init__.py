@@ -1,11 +1,10 @@
-import logging
 import NodeDefender
 
-logger = logging.getLogger(__name__)
-logger.setLevel('INFO')
+logger = None
 
 def load(loggHandler):
-    logger.addHandler(loggHandler)
+    global logger
+    logger = NodeDefender.logger.getChild("iCPE")
     icpes = NodeDefender.db.icpe.list()
     for icpe in icpes:
         if NodeDefender.db.icpe.online(icpe.mac_address):

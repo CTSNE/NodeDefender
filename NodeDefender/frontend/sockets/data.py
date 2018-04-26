@@ -48,7 +48,6 @@ def group_event_list(groups, length):
     events = NodeDefender.db.data.group.event.list(groups, length)
     if events:
         events = [event.to_json() for event in events]
-        print(events)
         emit('groupEventsList', events)
     return True
 

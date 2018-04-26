@@ -22,28 +22,33 @@ def CreateApp():
 
 def CreateLogging(app = None):
     app = app or CreateApp()
-    if not app.config['LOGGING']:
-        loggHandler = logging.StreamHandler(sys.stdout)
-    else:
-        if app.config['LOGGING_ENGINE'] == 'local':
-            loggHandler = logging.FileHandler(app.config['LOGGING_FILEPATH'])
-        elif app.config['LOGGING_ENGINE'] == 'syslog':
-            loggHandler = logging.handlers.\
-                    SysLogHandler(address = (app.config['LOGGING_SERVER'],
-                                             int(app.config['LOGGING_PORT'])))
-    level = NodeDefender.config.logging.config['level']
-    if level:
-        loggHandler.setLevel(level.upper())
-    else:
-        loggHandler.setLevel("DEBUG")
     
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    loggHandler.setFormatter(formatter)
-
     logger = logging.getLogger("NodeDefender")
-    logger.setLevel(logging.INFO)
-    logger.addHandler(loggHandler)
-    return logger, loggHandler
+    logger.setLevel(logging.DEBUG)
+    
+    log_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    
+    level = NodeDefender.config.logging.config['level']
+    level = level if len(level) else 'debug'
+
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel('WARNING')
+    console_handler.setFormatter(log_format)
+    logger.addHandler(console_handler)
+    if not NodeDefender.config.deployed:
+        return logger, console_handler
+    file_handler = logging.FileHandler(app.config['LOGGING_FILEPATH'])
+    file_handler.setLevel(level)
+    file_handler.setFormatter(log_format)
+    logger.addHandler(file_handler)
+
+    if app.config['LOGGING_SYSLOG']:
+        syslog_handler = logging.handlers.\
+            SysLogHandler(address = (app.config['LOGGING_HOST'],
+                                     int(app.config['LOGGING_PORT'])))
+        syslog_handler.setLevel(level)
+        logger.addHandler(syslog_handler)
+    return logger, console_handler
 
 def CreateCelery(app = None):
     app = app or CreateApp()

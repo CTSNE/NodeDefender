@@ -20,19 +20,14 @@ def add(host, port = 1883, username = None, password = None):
     mqtt.loop_start()
     return True
 
-def load(mqttlist = None):
-    if mqttlist is None:
-        mqttlist = NodeDefender.db.mqtt.list()
-
-    if len(mqttlist) is 0:
-        NodeDefender.mqtt.logger.warning("No MQTT Connection present")
-
-    for m in mqttlist:
-        NodeDefender.db.redis.mqtt.load(m)
-        Thread(target=add, args=[m.host, m.port]).start()
-        NodeDefender.mqtt.logger.info("MQTT {}:{} Loaded".\
-                                      format(m.host, m.port))
-    return len(mqttlist)
+def load(mqtt, port = 1883):
+    if type(mqtt) is not NodeDefender.db.sql.MQTTModel:
+        mqtt = NodeDefender.db.mqtt.get_sql(mqtt, port)
+    NodeDefender.db.redis.mqtt.load(mqtt)
+    Thread(target=add, args=[mqtt.host, mqtt.port]).start()
+    NodeDefender.mqtt.logger.info("MQTT {}:{} Loaded".\
+                                  format(mqtt.host, mqtt.port))
+    return True
 
 def connection(host, port):
     client = PahoMQTT.Client()

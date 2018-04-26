@@ -1,24 +1,24 @@
 import NodeDefender
 import os
 
-default_config = {'enabled' : False,
+default_config = {'syslog' : False,
                   'level' : 'DEBUG',
-                  'engine' : '',
-                  'filepath' : '',
+                  'filepath' : 'nodedefender.log',
                   'host' : '',
-                  'port' : ''}
+                  'port' : '514'}
 
 config = default_config.copy()
 
 def load_config(parser):
-    if eval(parser['LOGGING']['ENABLED']):
-        config.update(parser['LOGGING'])
-        config['enabled'] = True
+    if eval(parser['LOGGING']['SYSLOG']):
+        config['syslog']=True
+        config['host']=parser['LOGGING']['HOST']
+        config['port']=parser['LOGGING']['PORT']
     NodeDefender.app.config.update(
-        LOGGING=config['enabled'],
         LOGGING_LEVEL=config['level'],
-        LOGGING_ENGINE=config['engine'],
-        LOGGING_FILEPATH=config['filepath'],
+        LOGGING_SYSLOG=config['syslog'],
+        LOGGING_FILEPATH=os.path.join(NodeDefender.config.datafolder,
+            config['filepath']),
         LOGGING_HOST=config['host'],
         LOGGING_PORT=config['port'])
     return True

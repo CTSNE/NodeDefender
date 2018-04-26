@@ -1,13 +1,12 @@
-import logging
 import NodeDefender.frontend.views
 import NodeDefender.frontend.sockets
 import NodeDefender.frontend.api
 
-logger = logging.getLogger(__name__)
-logger.setLevel("INFO")
+logger = None
 
 def load(app, socketio, loggHandler):
-    logger.addHandler(loggHandler)
+    global logger
+    logger = NodeDefender.logger.getChild("Frontend")
     NodeDefender.frontend.views.load_views(app)
     NodeDefender.frontend.api.load_api(app)
     NodeDefender.frontend.sockets.load_sockets(socketio)

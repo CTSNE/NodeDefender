@@ -1,5 +1,5 @@
 from NodeDefender.db.sql import SQL, iCPEModel, SensorModel
-from NodeDefender.db import redis, logger
+from NodeDefender.db import redis
 import NodeDefender
 
 def get_sql(mac_address, sensor_id):
@@ -35,7 +35,7 @@ def create_sql(mac_address, sensor_id):
     icpe.sensors.append(sensor)
     SQL.session.add(icpe, sensor)
     SQL.session.commit()
-    logger.info("Created SQL Entry for {!r}:{!r}".format(mac_address, sensor_id))
+    NodeDefender.db.logger.info("Created SQL Entry for {!r}:{!r}".format(mac_address, sensor_id))
     return sensor
 
 def delete_sql(mac_address, sensor_id):
@@ -43,7 +43,7 @@ def delete_sql(mac_address, sensor_id):
     if sensor is None:
         return False
     SQL.session.delete(sensor)
-    logger.info("Deleted SQL Entry for {!r}:{!r}".format(mac_address, sensor_id))
+    NodeDefender.db.logger.info("Deleted SQL Entry for {!r}:{!r}".format(mac_address, sensor_id))
     return SQL.session.commit()
 
 def get_redis(mac_address, sensor_id):

@@ -1,13 +1,12 @@
-import logging
 import NodeDefender
 import NodeDefender.icpe.sensor.command
 import NodeDefender.icpe.sensor.commandclass
 
-logger = logging.getLogger(__name__)
-logger.setLevel('INFO')
+logger = None
 
 def load(loggHandler, *icpes):
-    logger.addHandler(loggHandler)
+    global logger
+    logger = NodeDefender.icpe.logger.getChild("sensor")
     for icpe in icpes:
         for sensor in icpe.sensors:
             NodeDefender.db.sensor.get(icpe.mac_address, sensor.sensor_id)

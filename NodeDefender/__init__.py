@@ -19,9 +19,9 @@ import NodeDefender.frontend
 import gevent.monkey
 gevent.monkey.patch_all()
 
-hostname = os.uname().nodename
-release = 'Alpha-2'
-date_loaded = datetime.now()
+__version__ = '0.8.13'
+HOSTNAME = os.uname().nodename
+DATE_LOADED = datetime.now()
 
 app = None
 socketio = None
@@ -51,7 +51,6 @@ def create_console_app():
         pass
 
     NodeDefender.db.load(app, loggHandler)
-
     return app
 
 def create_app():
@@ -91,14 +90,14 @@ def create_app():
     serializer = factory.Serializer(app)
     NodeDefender.db.load(app, loggHandler)
     NodeDefender.frontend.load(app, socketio, loggHandler)
-    NodeDefender.mqtt.load(loggHandler)
+    NodeDefender.mqtt.load()
     NodeDefender.icpe.load(loggHandler)
     '''
     except Exception as e:
         logger.critical("Unable to load NodeDefender")
         print(e)
     '''
-    logger.info('NodeDefender running on Port: {}'.\
+    logger.warning('NodeDefender running on Port: {}'.\
                 format(app.config['PORT']))
     return app
 
