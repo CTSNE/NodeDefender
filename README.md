@@ -26,7 +26,7 @@ $ source py/bin/activate
 ```
 # Configuration & Usage
 
-> Below and the rest of the documnetation will explain usage when NodeDefender is installed using pypi
+> Below and the rest of the wiki will explain usage when NodeDefender is installed using pypi
 > For installation from source $ nodedefender is changed to $ ./manage.py
 
 ```
@@ -34,3 +34,5 @@ $ nodedefender run
 ```
 Will start the application and give you the possibility to deploy configuration and initial superuser.
 Once complete; restart the application and the new configuration will be used.
+To be running with iCPE you need to Create Group, Add MQTT Connection and Create a Node that the iCPE should be attached to.
+Detailed instructions on those steps can be found on the [https://github.com/CTSNE/NodeDefender/wiki](wiki)
