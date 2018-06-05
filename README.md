@@ -35,4 +35,4 @@ $ nodedefender run
 Will start the application and give you the possibility to deploy configuration and initial superuser.
 Once complete; restart the application and the new configuration will be used.
 To be running with iCPE you need to Create Group, Add MQTT Connection and Create a Node that the iCPE should be attached to.
-Detailed instructions on those steps can be found on the [https://github.com/CTSNE/NodeDefender/wiki](wiki)
+Detailed instructions on those steps can be found on the [https://github.com/CTSNE/NodeDefender/wiki](https://github.com/CTSNE/NodeDefender/wiki)
