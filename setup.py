@@ -25,7 +25,7 @@ setup(
         "cffi==1.11.5",
         "chardet==3.0.4",
         "click==6.7",
-        "Flask==0.12.2",
+        "Flask==1.0",
         "Flask-Bcrypt==0.7.1",
         "Flask-Login==0.4.1",
         "Flask-Migrate==2.1.1",
