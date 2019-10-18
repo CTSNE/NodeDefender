@@ -49,7 +49,7 @@ setup(
         "PyMySQL==0.8.0",
         "python-dateutil==2.7.0",
         "python-editor==1.0.3",
-        "python-engineio==2.0.4",
+        "python-engineio==3.8.2.post1",
         "python-socketio==1.9.0",
         "pytz==2018.3",
         "redis==2.10.6",
