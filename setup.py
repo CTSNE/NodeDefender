@@ -54,7 +54,7 @@ setup(
         "pytz==2018.3",
         "redis==2.10.6",
         "redlock==1.2.0",
-        "requests==2.18.4",
+        "requests==2.20.0",
         "six==1.11.0",
         "SQLAlchemy==1.2.5",
         "tzlocal==1.5.1",
